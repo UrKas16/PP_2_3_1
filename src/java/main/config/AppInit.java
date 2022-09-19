@@ -18,7 +18,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{
-                WebConfig.class};
+                WebConfig.class, HibernateConfig.class};
     }
 
     /* Данный метод указывает url, на котором будет базироваться приложение */

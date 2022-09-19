@@ -1,6 +1,5 @@
 package main.config;
 
-import main.model.User;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -9,12 +8,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.*;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Objects;
 
@@ -23,7 +21,7 @@ import java.util.Objects;
 @PropertySource("classpath:db.properties")
 @EnableJpaRepositories(basePackages = {"main"})
 @EnableTransactionManagement
-@ComponentScan(value = "java")
+@ComponentScan("main")
 public class HibernateConfig {
 
     @Autowired
@@ -48,10 +46,11 @@ public class HibernateConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(getDataSource());
-        factory.setPackagesToScan("main.models");
+        factory.setPackagesToScan("main.model");
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
         jpaVendorAdapter.setGenerateDdl(true);
         jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
+        jpaVendorAdapter.setShowSql(true);
         factory.setJpaVendorAdapter(jpaVendorAdapter);
         return factory;
     }
